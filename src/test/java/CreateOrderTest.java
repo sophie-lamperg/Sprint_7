@@ -10,7 +10,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(Parameterized.class)
-public class CreateOrderTest {
+public class CreateOrderTest extends Constants {
     private final String firstNameValue;
     private final String lastNameValue;
     private final String addressValue;
@@ -52,8 +52,8 @@ public class CreateOrderTest {
     @Test
     public void testTrackFieldInOrder(){
         OrderClient order = new OrderClient();
-        ValidatableResponse emptyPasswordField  = order.getOrdersResponse(
-                new Order(firstNameValue, lastNameValue, addressValue,
+        ValidatableResponse emptyPasswordField  = order.getOrdersResponse(new Order(
+                firstNameValue, lastNameValue, addressValue,
                         metroStationValue, phoneValue, rentTimeValue, deliveryDateValue, commentValue, colorValue));
         emptyPasswordField
                 .statusCode(201);

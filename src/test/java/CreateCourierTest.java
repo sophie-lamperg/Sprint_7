@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CreateCourierTest extends DeleteAndCreate {
+    int id;
     @Before
     public void setUp(){
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
@@ -18,7 +19,7 @@ public class CreateCourierTest extends DeleteAndCreate {
     public void testErrorMessageForRequestWithDuplicateLogin(){
         CourierClient courierClient = new CourierClient();
         ValidatableResponse duplicateLogin  = courierClient.getCourierResponse(
-                new Courier("alla", "1222", "alla"));
+                new Courier(expectedLogin, expectedPassword, expectedName));
         duplicateLogin
                 .statusCode(409)
                 .assertThat()
@@ -30,7 +31,7 @@ public class CreateCourierTest extends DeleteAndCreate {
     public void testErrorMessageForRequestWithoutLogin(){
         CourierClient courierClient = new CourierClient();
         ValidatableResponse emptyLoginField  = courierClient.getCourierResponse(
-                new Courier(null, "1222", "alla"));
+                new Courier(null, expectedPassword, expectedName));
         emptyLoginField
                 .statusCode(400)
                 .assertThat()
@@ -42,7 +43,7 @@ public class CreateCourierTest extends DeleteAndCreate {
     public void testErrorMessageForRequestWithoutPassword(){
         CourierClient courierClient = new CourierClient();
         ValidatableResponse emptyPasswordField  = courierClient.getCourierResponse(
-                new Courier("alla", null, "alla"));
+                new Courier(expectedLogin, null, expectedName));
         emptyPasswordField
                 .statusCode(400)
                 .assertThat()
@@ -54,7 +55,7 @@ public class CreateCourierTest extends DeleteAndCreate {
    public void testBodyInRandomAccountCreation(){
        CourierClient courierClient = new CourierClient();
        ValidatableResponse duplicateLogin  = courierClient.getCourierResponse(
-               Courier.getRandomCourier());
+               Courier.getRandomCourierLogin());
        duplicateLogin
                .statusCode(201)
                .assertThat()
@@ -63,6 +64,6 @@ public class CreateCourierTest extends DeleteAndCreate {
 
     @After
     public void tearDown(){
-        deleteAccount();
+        deleteAccount(id);
     }
 }

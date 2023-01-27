@@ -2,7 +2,7 @@ import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import static io.restassured.RestAssured.given;
 
-public class OrderClient {
+public class OrderClient extends Constants {
     @Step("Get response for Orders")
     public ValidatableResponse getOrdersResponse(Order order) {
         return given()

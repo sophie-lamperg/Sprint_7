@@ -1,5 +1,5 @@
 public class Constants {
-    protected final String expectedLogin = "alla";
-    protected final String expectedPassword = "1222";
-    protected final String expectedName = "alla";
+    protected final static String EXPECTED_LOGIN = "ala";
+    protected final static String EXPECTED_PASSWORD = "1222";
+    protected final static String EXPECTED_NAME = "ala";
 }

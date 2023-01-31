@@ -7,19 +7,21 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.equalTo;
 
 public class CreateCourierTest extends DeleteAndCreate {
-    int id;
+    private int id;
+    private CourierClient courierClient;
     @Before
     public void setUp(){
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
+        courierClient = new CourierClient();
         createAccount();
     }
 
     @Test
     @DisplayName("Check status code 409 and error message in request with duplicate login field")
     public void testErrorMessageForRequestWithDuplicateLogin(){
-        CourierClient courierClient = new CourierClient();
+       // CourierClient courierClient = new CourierClient();
         ValidatableResponse duplicateLogin  = courierClient.getCourierResponse(
-                new Courier(expectedLogin, expectedPassword, expectedName));
+                new Courier(EXPECTED_LOGIN, EXPECTED_PASSWORD, EXPECTED_NAME));
         duplicateLogin
                 .statusCode(409)
                 .assertThat()
@@ -29,9 +31,9 @@ public class CreateCourierTest extends DeleteAndCreate {
     @Test
     @DisplayName("Check status code 400 and error message in request without login field")
     public void testErrorMessageForRequestWithoutLogin(){
-        CourierClient courierClient = new CourierClient();
+       // CourierClient courierClient = new CourierClient();
         ValidatableResponse emptyLoginField  = courierClient.getCourierResponse(
-                new Courier(null, expectedPassword, expectedName));
+                new Courier(null, EXPECTED_PASSWORD, EXPECTED_NAME));
         emptyLoginField
                 .statusCode(400)
                 .assertThat()
@@ -41,9 +43,9 @@ public class CreateCourierTest extends DeleteAndCreate {
     @Test
     @DisplayName("Check status code 400 and error message in request without password field")
     public void testErrorMessageForRequestWithoutPassword(){
-        CourierClient courierClient = new CourierClient();
+       // CourierClient courierClient = new CourierClient();
         ValidatableResponse emptyPasswordField  = courierClient.getCourierResponse(
-                new Courier(expectedLogin, null, expectedName));
+                new Courier(EXPECTED_LOGIN, null, EXPECTED_NAME));
         emptyPasswordField
                 .statusCode(400)
                 .assertThat()
@@ -53,7 +55,7 @@ public class CreateCourierTest extends DeleteAndCreate {
     @DisplayName("Check status code 201 and body in create random account")
    @Test
    public void testBodyInRandomAccountCreation(){
-       CourierClient courierClient = new CourierClient();
+     //  CourierClient courierClient = new CourierClient();
        ValidatableResponse duplicateLogin  = courierClient.getCourierResponse(
                Courier.getRandomCourierLogin());
        duplicateLogin

@@ -36,6 +36,6 @@ public class Courier {
     }
 
     public static Courier getRandomCourierLogin() {
-        return new Courier(RandomStringUtils.randomAlphabetic(4), "pass", "name");
+        return new Courier(RandomStringUtils.randomAlphabetic(4), "1234", "name");
     }
 }

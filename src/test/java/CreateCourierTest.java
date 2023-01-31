@@ -63,7 +63,6 @@ public class CreateCourierTest extends DeleteAndCreate {
                .assertThat()
                .body("ok", equalTo(true));
    }
-
     @After
     public void tearDown(){
         deleteAccount(id);

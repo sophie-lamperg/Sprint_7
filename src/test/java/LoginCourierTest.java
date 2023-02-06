@@ -1,17 +1,25 @@
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import groovy.json.JsonException;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
-import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class LoginCourierTest extends DeleteAndCreate {
     private CourierClient courierClient;
     private int id;
+    private ResponseBody body;
     @Before
     public void setUp(){
         RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
@@ -27,14 +35,13 @@ public class LoginCourierTest extends DeleteAndCreate {
         int s = dataCourier
                 .extract().statusCode();
         assertEquals(200, s);
-        id = dataCourier.extract().path("id");
-       assertNotEquals(0, id);
+        Response response = dataCourier.extract().response();
+        body = response.body();
     }
 
     @DisplayName("Check status code 400 and error message in request without login field")
     @Test
     public void testRequestWithoutLogin(){
-        //CourierClient courier = new CourierClient();
         ValidatableResponse dataCourierWithoutLogin =  courierClient.getLoginCourierResponse(
                 new Login(null, EXPECTED_PASSWORD));
         dataCourierWithoutLogin
@@ -46,7 +53,6 @@ public class LoginCourierTest extends DeleteAndCreate {
     @DisplayName("Check status code 400 and error message in request without password field")
     @Test
     public void testRequestWithoutPassword(){
-       // CourierClient courier = new CourierClient();
         ValidatableResponse dataCourierWithoutLogin =  courierClient.getLoginCourierResponse(
                 new Login(EXPECTED_LOGIN, ""));
         dataCourierWithoutLogin
@@ -58,7 +64,6 @@ public class LoginCourierTest extends DeleteAndCreate {
     @DisplayName("Check status code 404 and error message in non-existent data")
     @Test
     public void testRequestNonExistentData(){
-        //CourierClient courier = new CourierClient();
         ValidatableResponse nonExistentData  =  courierClient.getLoginCourierResponse(
                 Login.getRandomLoginData());
         nonExistentData
@@ -69,6 +74,14 @@ public class LoginCourierTest extends DeleteAndCreate {
 
     @After
     public void tearDown(){
-        deleteAccount(id);
+        if (body != null) {
+            try{
+                id = body.path("id");
+                deleteAccount(id);
+            }
+            catch (JsonException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

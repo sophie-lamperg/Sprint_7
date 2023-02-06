@@ -1,11 +1,13 @@
-import io.restassured.response.Response;
+import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 
 public class DeleteAndCreate extends Constants {
     public void deleteAccount(int id) {
-        given().when().delete("/api/v1/courier/login" + id);
+        RestAssured.given()
+                .header("Content-Type", "application/json")
+                .delete("/api/v1/courier/" + id);
     }
     public ValidatableResponse createAccount(){
         Courier courier = new Courier(EXPECTED_LOGIN, EXPECTED_PASSWORD, EXPECTED_NAME);

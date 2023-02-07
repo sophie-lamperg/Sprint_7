@@ -1,4 +1,3 @@
-import groovy.json.JsonException;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.*;
@@ -82,7 +81,7 @@ public class CreateCourierTest extends DeleteAndCreate {
                 deleteAccount(id);
 
             }
-            catch (JsonException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -1,17 +1,11 @@
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import groovy.json.JsonException;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -79,7 +73,7 @@ public class LoginCourierTest extends DeleteAndCreate {
                 id = body.path("id");
                 deleteAccount(id);
             }
-            catch (JsonException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
